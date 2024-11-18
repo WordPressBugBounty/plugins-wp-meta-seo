@@ -163,7 +163,7 @@ class JUCheckRequirements
             if (!function_exists('get_plugin_data')) {
                 include_once(ABSPATH . 'wp-admin/includes/plugin.php');
             }
-            $addonData = get_plugin_data(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . self::$path);
+            $addonData = get_plugin_data(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . self::$path, false, false);
             self::$version = isset($addonData['Version']) ? $addonData['Version'] : null;
         }
 
@@ -311,7 +311,7 @@ class JUCheckRequirements
                             // Check minimum of require plugin version if set
                             if (isset($plugin['requireVersion']) && $plugin['requireVersion'] !== '') {
                                 $requireVersion = $plugin['requireVersion'];
-                                $addonData = get_plugin_data($pluginPath);
+                                $addonData = get_plugin_data($pluginPath, false, false);
                                 $installedVersion = (isset($addonData['Version']) && strpos($addonData['Version'], '{{version') === false) ? $addonData['Version'] : null;
                                 if ($installedVersion !== null) {
                                     if (self::versionCompare((string) $installedVersion, '<', (string) $requireVersion)) {
@@ -356,7 +356,7 @@ class JUCheckRequirements
                 if (function_exists('get_plugin_data')) {
                     $pluginPath = WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $addonPath;
                     if (file_exists($pluginPath)) {
-                        $addonData = get_plugin_data($pluginPath);
+                        $addonData = get_plugin_data($pluginPath, false, false);
                         $addonVersion = (isset($addonData['Version']) && strpos($addonData['Version'], '{{version') === false) ? $addonData['Version'] : null;
                         if ($addonVersion !== null) {
                             if (self::versionCompare($addonVersion, '<', $requireVersion)) {

@@ -4,7 +4,7 @@
  * Plugin Name: WP Meta SEO
  * Plugin URI: http://www.joomunited.com/wordpress-products/wp-meta-seo
  * Description: WP Meta SEO is a plugin for WordPress to fill meta for content, images and main SEO info in a single view.
- * Version: 4.5.16
+ * Version: 4.5.17
  * Text Domain: wp-meta-seo
  * Domain Path: /languages
  * Author: JoomUnited
@@ -133,7 +133,7 @@ if (!defined('WPMSEO_VERSION')) {
     /**
      * Plugin version
      */
-    define('WPMSEO_VERSION', '4.5.16');
+    define('WPMSEO_VERSION', '4.5.17');
 }
 
 if (!defined('WPMS_CLIENTID')) {
@@ -682,8 +682,10 @@ if (is_admin()) {
             $page_follow = 'follow';
         }
 
+        $post       = get_post($id);
+        $canonical_url = apply_filters('get_canonical_url', $current_url, $post);
         // Create canonical meta link
-        $canonical_meta = $opengraph->getCanonical($id, $settings, $current_url, $page_index);
+        $canonical_meta = $opengraph->getCanonical($id, $settings, $canonical_url, $page_index);
         if (!empty($canonical_meta)) {
             // phpcs:ignore WordPress.Security.EscapeOutput -- Content escaped in some method in class MetaSeoOpenGraph
             echo $canonical_meta;
@@ -811,6 +813,8 @@ if (is_admin()) {
             }
 
             $meta_title = $opengraph->replaceSnippet($meta_title, null, $term);
+        } elseif (is_post_type_archive()) { //use WP default title of archive page for custom post type
+            $meta_title = '';
         }
 
         if (empty($meta_title)) {

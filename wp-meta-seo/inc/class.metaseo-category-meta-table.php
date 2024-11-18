@@ -711,7 +711,7 @@ class WPMSCategoryMetaTable extends WP_List_Table
         if (!empty($termID) && !empty($dataType) && isset($data)) {
             switch ($dataType) {
                 case 'wpms-cat-meta-title':
-                        $data = sanitize_title($data);
+                        $data = sanitize_text_field($data);
                         update_term_meta($termID, 'wpms_category_metatitle', $data);
                         $response['updated'] = true;
                         $response['msg'] = 'Meta seo title was saved';
