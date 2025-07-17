@@ -43,6 +43,9 @@
             }
 
             this.listTags = this.tagsElement.tagsinput('items');
+            if (typeof this.listTags == 'undefined') {
+                this.listTags = [];
+            }
             this.analytics();
         }
 
@@ -52,6 +55,9 @@
                 this.content = data.content;
             }
             this.listTags = this.tagsElement.tagsinput('items');
+            if (typeof this.listTags == 'undefined') {
+                this.listTags = [];
+            }
             this.analytics();
         }
 
@@ -118,9 +124,11 @@
             const circliful = Math.ceil((mcheck * 100) / totalItems);
 
             $('#wpmetaseo_seo_keywords_result').val(circliful);
-            $('.metaseo-progress-bar').circleProgress('value', circliful / 100).on('circle-animation-progress', function (event, progress) {
-                $(this).find('strong').html(circliful + '<i>%</i>');
-            });
+            if( $('.metaseo-progress-bar').length ) {
+                $('.metaseo-progress-bar').circleProgress('value', circliful / 100).on('circle-animation-progress', function (event, progress) {
+                    $(this).find('strong').html(circliful + '<i>%</i>');
+                });
+            }
         }
 
         changeAnalyticsInfo = (key, value) => {

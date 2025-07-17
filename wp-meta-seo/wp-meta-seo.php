@@ -4,7 +4,7 @@
  * Plugin Name: WP Meta SEO
  * Plugin URI: http://www.joomunited.com/wordpress-products/wp-meta-seo
  * Description: WP Meta SEO is a plugin for WordPress to fill meta for content, images and main SEO info in a single view.
- * Version: 4.5.17
+ * Version: 4.5.18
  * Text Domain: wp-meta-seo
  * Domain Path: /languages
  * Author: JoomUnited
@@ -108,6 +108,69 @@ if (class_exists('\Joomunited\WPMS\JUCheckRequirements')) {
     }
 }
 
+if (is_admin()) {
+    if (!function_exists('wpmsMergePluginMsg')) {
+        /**
+         * Show error when install
+         *
+         * @return void
+         */
+        function wpmsMergePluginMsg()
+        {
+            // Check if user dismissed within the last 7 days
+            $dismissed_time = get_user_meta(get_current_user_id(), 'wpms_notice_dismissed_time', true);
+            if ($dismissed_time && (time() - $dismissed_time) < WEEK_IN_SECONDS) {
+                return;
+            }
+            ?>
+            <div class="notice notice-info is-dismissible" id="wpms-merged-plugin-notice">
+                <p><strong>📢 IMPORTANT NOTICE:</strong></p>
+                <p>
+                    As JoomUnited continues to evolve, we’ve decided to merge the free versions of
+                    <strong>WP Meta SEO</strong>, <strong>WP Speed of Light</strong>, and <strong>WP Latest Posts</strong>
+                    into their respective premium editions.
+                </p>
+                <p>
+                    Therefore, this plugin will not be supported while it remains online for a certain period of time. You can use the
+                    <strong>30% OFF coupon</strong> to migrate to the pro version of the plugin: <strong>JU-EVOLVING</strong>
+                </p>
+                <p>
+                    <a href="https://www.joomunited.com/wordpress-products/wp-meta-seo" class="button-primary" target="_blank">Get the new plugin version now >></a> &nbsp;
+                    <a href="https://www.joomunited.com/news/important-announcement-evolving-our-wordpress-extensions-for-better-service-and-performance" target="_blank">Read the full announcement here >></a>
+                </p>
+            </div>
+
+            <script>
+                jQuery(document).ready(function($){
+                    $('#wpms-merged-plugin-notice').on('click', '.notice-dismiss', function(){
+                        $.post(ajaxurl, {
+                            action: 'wpms_dismiss_notice_for_week',
+                            nonce: '<?php echo wp_create_nonce('ju_dismiss_notice');  //phpcs:ignore WordPress.Security.EscapeOutput -- Echo content ?>'
+                        });
+                    });
+                });
+            </script>
+            <?php
+        }
+    }
+    add_action('admin_notices', 'wpmsMergePluginMsg');
+
+    add_action('wp_ajax_wpms_dismiss_notice_for_week', 'wpms_dismiss_notice_for_week_callback');
+    /**
+     * Callback function to dismiss notice for a week
+     *
+     * @return void
+     */
+    function wpms_dismiss_notice_for_week_callback()
+    {
+        check_ajax_referer('ju_dismiss_notice', 'nonce');
+
+        update_user_meta(get_current_user_id(), 'wpms_notice_dismissed_time', time());
+
+        wp_send_json_success();
+    }
+}
+
 if (!defined('WPMETASEO_PLUGIN_URL')) {
     /**
      * Url to WP Meta SEO plugin
@@ -133,7 +196,7 @@ if (!defined('WPMSEO_VERSION')) {
     /**
      * Plugin version
      */
-    define('WPMSEO_VERSION', '4.5.17');
+    define('WPMSEO_VERSION', '4.5.18');
 }
 
 if (!defined('WPMS_CLIENTID')) {
