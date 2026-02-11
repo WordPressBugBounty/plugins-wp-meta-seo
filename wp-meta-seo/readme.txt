@@ -12,6 +12,11 @@ WP Meta SEO gives you the control over all your SEO optimization. Bulk SEO conte
 
 == Description ==
 
+## IMPORTANT NOTE ABOUT THIS PLUGIN: 
+After careful consideration, we've decided to merge the free versions of WP Meta SEO, WP Speed of Light, and WP Latest Posts into their respective premium versions. This consolidation will allow us to focus our resources on developing more robust, feature-rich extensions. We do offer some easy migration and prices for free users though.
+
+#### Read the full article: [Blog post announcement](https://www.joomunited.com/news/important-announcement-evolving-our-wordpress-extensions-for-better-service-and-performance "Important announcement: Evolving our extensions for better service and performance").
+
 ## WP Meta SEO plugin, main search engine optimization features
 
 * Bulk edit all website meta on a single view
@@ -25,7 +30,7 @@ WP Meta SEO gives you the control over all your SEO optimization. Bulk SEO conte
 * Facebook and Twitter social sharing custom elements per content
 * Breadcrumb generator
 * Gutenberg SEO content checker
-* Canonical URL management for post, pages… and categories
+* Canonical URL management for post, pages and categories
 * Elementor full integration with live onPage SEO in the Elementor page editor
 
 
@@ -794,7 +799,7 @@ Yes WP Meta SEO is compatible with Gutenberg editor since 3.7 version.
 == Upgrade Notice ==
 
 Update through the automatic WordPress updater, all WP Meta SEO content will remain in place.
-You WON'T lose any SEO content: meta, alt, titles…
+You WON'T lose any SEO content: meta, alt, titlesï¿½
 
 
 == Requirements ==
